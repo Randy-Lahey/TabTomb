@@ -12,3 +12,6 @@ function update(value) {
 }
 
 browser.storage.local.get("value").then((result) => update(result.value));
+
+let title = document.querySelector("title");
+title.innerText = "TabTomb" + " " + title.innerText;
