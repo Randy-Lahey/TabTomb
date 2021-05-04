@@ -1,17 +1,20 @@
-let style = document.createElement("style");
-document.body.appendChild(style);
+const tabTomb = window.localStorage.getItem("tabTomb");
 
-browser.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && "value" in changes) {
-    update(changes.value.newValue);
-  }
-});
-
-function update(value) {
-  style.innerText = `html { filter: sepia(${value}%) !important}`;
+if (!tabTomb) {
+  const time = new Date();
+  window.localStorage.setItem("tabTime", time);
 }
-
-browser.storage.local.get("value").then((result) => update(result.value));
 
 let title = document.querySelector("title");
 title.innerText = "[time_var]" + " " + title.innerText;
+
+// async function init() {
+//   let { value } = browser.local.storage.get("value");
+//   if (!value) {
+//     value = 0;
+//   }
+//   input.value = value;
+//   setValue(value);
+// }
+
+// init().catch((e) => console.error(e));
