@@ -1,6 +1,6 @@
-const tabTomb = window.localStorage.getItem("tabTime");
+const tabTime = window.localStorage.getItem("tabTime");
 
-if (!tabTomb) {
+if (!tabTime) {
   const time = new Date();
   window.localStorage.setItem("tabTime", time);
 }
