@@ -13,10 +13,14 @@ setInterval(() => {
   const timeDiff = Math.floor((currentTime - originalTime) / 1000);
 
   let currentTitle = title.innerText;
-  if (!isNaN(parseInt(currentTitle[0]))) {
-    let currentTitleArr = currentTitle.split(" ");
+  let currentTitleArr = currentTitle.split(" ");
+  if (
+    currentTitleArr[0].includes("【") &&
+    currentTitleArr[0].includes("】") &&
+    currentTitleArr[0].includes("s")
+  ) {
     currentTitleArr.shift();
     currentTitle = currentTitleArr.join(" ");
   }
-  title.innerText = `${timeDiff}s ${currentTitle}`;
+  title.innerText = `【${timeDiff}s】 ${currentTitle}`;
 }, 100);
