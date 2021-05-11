@@ -1,25 +1,34 @@
+// for opening a new tab
 const tabTime = window.sessionStorage.getItem("tabTime");
 
 if (!tabTime) {
+  console.log("first if");
   const time = new Date();
   window.sessionStorage.setItem("tabTime", time);
 }
 
+// for clicking link on site, staying in the tab
 const lastUrl = document.referrer;
-const lastUrlNew = new URL(lastUrl);
-let lastUrlPathname = "";
-if (lastUrlNew) lastUrlPathname = lastUrlNew.pathname;
-const currentUrlPathname = window.location.pathname;
+if (lastUrl !== "") {
+  const lastUrlNew = new URL(lastUrl);
+  console.log(lastUrlNew);
+  let lastUrlPathname = "";
+  if (lastUrlNew) lastUrlPathname = lastUrlNew.pathname;
+  const currentUrlPathname = window.location.pathname;
 
-if (lastUrlPathname !== currentUrlPathname) {
-  window.sessionStorage.removeItem("tabTime");
-  const time = new Date();
-  window.sessionStorage.setItem("tabTime", time);
+  if (
+    lastUrlPathname !== currentUrlPathname &&
+    window.performance.getEntriesByType("navigation")[0]["type"] !== "reload"
+  ) {
+    console.log("second if");
+    window.sessionStorage.removeItem("tabTime");
+    const time = new Date();
+    window.sessionStorage.setItem("tabTime", time);
+  }
 }
-
-let title = document.querySelector("title");
 
 setInterval(() => {
+  let title = document.querySelector("title");
   const currentTime = new Date();
   const originalTime = Date.parse(window.sessionStorage.getItem("tabTime"));
   const timeDiff = Math.floor((currentTime - originalTime) / 1000);
@@ -37,7 +46,4 @@ setInterval(() => {
   title.innerText = `【${timeDiff}s】 ${currentTitle}`;
 }, 100);
 
-// Update the timer when you go between pages on a site
-// Check the last url and then, if it's the same domain then we reset the tabTime
-// Now, need to not reset things only if the page has been refreshed
-// window.performance.getEntriesByType("navigation")[0]["type"] !== "reload"
+// replace document.referrer with saving it ourselves
