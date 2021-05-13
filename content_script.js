@@ -1,50 +1,50 @@
-// for opening a new tab
-const tabTime = window.sessionStorage.getItem("tabTime");
+function markTabBirthday() {
+  let tabBirthday = window.sessionStorage.getItem("tabBirthday");
 
-if (!tabTime) {
-  console.log("first if");
-  const time = new Date();
-  window.sessionStorage.setItem("tabTime", time);
-}
-
-// for clicking link on site, staying in the tab
-let tabUrl = window.sessionStorage.getItem("tabUrl");
-
-if (!tabUrl) {
-  console.log("tabUrl if");
-  tabUrl = document.URL;
-  window.sessionStorage.setItem("tabUrl", tabUrl);
-}
-
-const currentUrl = document.URL;
-
-console.log("currentUrl", currentUrl);
-
-if (tabUrl !== currentUrl) {
-  console.log(tabUrl, currentUrl);
-  const lastUrlNew = new URL(tabUrl);
-  console.log(lastUrlNew);
-  let lastUrlPathname = "";
-  if (lastUrlNew) lastUrlPathname = lastUrlNew.pathname;
-  const currentUrlPathname = window.location.pathname;
-  console.log(lastUrlPathname, currentUrlPathname);
-
-  if (lastUrlPathname !== currentUrlPathname) {
-    console.log("second if");
-    window.sessionStorage.removeItem("tabTime");
-    window.sessionStorage.removeItem("tabUrl");
-    const time = new Date();
-    window.sessionStorage.setItem("tabTime", time);
-    window.sessionStorage.setItem("tabUrl", currentUrl);
+  if (!tabBirthday) {
+    console.log("tabBirthday if");
+    tabBirthday = new Date();
+    window.sessionStorage.setItem("tabBirthday", tabBirthday);
   }
 }
 
-console.log("there");
+function didoDomainCheck() {
+  let urlStickyNote = window.sessionStorage.getItem("urlStickyNote");
+
+  if (!urlStickyNote) {
+    console.log("urlStickyNote if");
+    urlStickyNote = document.URL;
+    window.sessionStorage.setItem("urlStickyNote", urlStickyNote);
+  }
+
+  const currentUrl = document.URL;
+
+  if (currentUrl !== urlStickyNote) {
+    const urlStickyNoteObject = new URL(urlStickyNote);
+    let stickyNotePathname = "";
+    if (urlStickyNoteObject) stickyNotePathname = urlStickyNoteObject.pathname;
+    const currentPathname = window.location.pathname;
+
+    // domains should match
+    if (currentPathname !== stickyNotePathname) {
+      console.log("didoDomain 2nd if");
+      const time = new Date();
+      window.sessionStorage.setItem("tabBirthday", time);
+      window.sessionStorage.setItem("urlStickyNote", currentUrl);
+    }
+  }
+}
+
+markTabBirthday();
+
+didoDomainCheck();
+
+// update title - currently seconds every X amount of time
 setInterval(() => {
   console.log("here");
   let title = document.querySelector("title");
   const currentTime = new Date();
-  const originalTime = Date.parse(window.sessionStorage.getItem("tabTime"));
+  const originalTime = Date.parse(window.sessionStorage.getItem("tabBirthday"));
   const timeDiff = Math.floor((currentTime - originalTime) / 1000);
 
   console.log(timeDiff, timeDiff);
@@ -61,3 +61,5 @@ setInterval(() => {
   }
   title.innerText = `【${timeDiff}s】 ${currentTitle}`;
 }, 100);
+
+// Refactor what we have - into functions
