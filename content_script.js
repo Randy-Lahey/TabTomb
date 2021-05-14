@@ -8,7 +8,7 @@ function markTabBirthday() {
   }
 }
 
-function didoDomainCheck() {
+function dittoDomainCheck() {
   let urlStickyNote = window.sessionStorage.getItem("urlStickyNote");
 
   if (!urlStickyNote) {
@@ -27,7 +27,7 @@ function didoDomainCheck() {
 
     // domains should also not match? Just in case?
     if (currentPathname !== stickyNotePathname) {
-      console.log("didoDomain 2nd if");
+      console.log("dittoDomain 2nd if");
       const time = new Date();
       window.sessionStorage.setItem("tabBirthday", time);
       window.sessionStorage.setItem("urlStickyNote", currentUrl);
