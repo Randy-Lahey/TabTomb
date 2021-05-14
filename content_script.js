@@ -67,7 +67,7 @@ function updateTitle(
 
 markTabBirthday();
 
-didoDomainCheck();
+dittoDomainCheck();
 
 updateTitle("s", 1000, 100);
 
