@@ -25,7 +25,7 @@ function didoDomainCheck() {
     if (urlStickyNoteObject) stickyNotePathname = urlStickyNoteObject.pathname;
     const currentPathname = window.location.pathname;
 
-    // domains should match
+    // domains should also not match? Just in case?
     if (currentPathname !== stickyNotePathname) {
       console.log("didoDomain 2nd if");
       const time = new Date();
@@ -35,31 +35,44 @@ function didoDomainCheck() {
   }
 }
 
+function updateTitle(
+  timeUnit,
+  timePassedInMillisecondsDivisor,
+  intervalTimeInMilliseconds
+) {
+  setInterval(() => {
+    console.log("setInterval seconds");
+    let title = document.querySelector("title");
+    const time = new Date();
+    const birthdayTime = Date.parse(
+      window.sessionStorage.getItem("tabBirthday")
+    );
+    const timePassed = Math.floor(
+      (time - birthdayTime) / timePassedInMillisecondsDivisor
+    );
+
+    let titleInnerText = title.innerText;
+    let titleArr = titleInnerText.split(" ");
+    if (
+      titleArr[0].includes("【") &&
+      titleArr[0].includes("】") &&
+      titleArr[0].includes(timeUnit)
+    ) {
+      titleArr.shift();
+      titleInnerText = titleArr.join(" ");
+    }
+    title.innerText = `【${timePassed}${timeUnit}】 ${titleInnerText}`;
+  }, intervalTimeInMilliseconds);
+}
+
 markTabBirthday();
 
 didoDomainCheck();
 
+updateTitle("s", 1000, 100);
+
 // update title - currently seconds every X amount of time
-setInterval(() => {
-  console.log("here");
-  let title = document.querySelector("title");
-  const currentTime = new Date();
-  const originalTime = Date.parse(window.sessionStorage.getItem("tabBirthday"));
-  const timeDiff = Math.floor((currentTime - originalTime) / 1000);
-
-  console.log(timeDiff, timeDiff);
-
-  let currentTitle = title.innerText;
-  let currentTitleArr = currentTitle.split(" ");
-  if (
-    currentTitleArr[0].includes("【") &&
-    currentTitleArr[0].includes("】") &&
-    currentTitleArr[0].includes("s")
-  ) {
-    currentTitleArr.shift();
-    currentTitle = currentTitleArr.join(" ");
-  }
-  title.innerText = `【${timeDiff}s】 ${currentTitle}`;
-}, 100);
 
 // Refactor what we have - into functions
+// didoDomainCheck into multiple fns
+// setInterval into a function
