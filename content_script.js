@@ -37,7 +37,7 @@ function didoDomainCheck() {
 
 markTabBirthday();
 
-didoDomainCheck();
+dittoDomainCheck();
 
 // update title - currently seconds every X amount of time
 setInterval(() => {
