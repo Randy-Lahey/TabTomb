@@ -15,8 +15,7 @@
     "default_icon": {
       "48": "/icon.svg"
     },
-    "default_title": "TabTomb",
-    "default_popup": "/popup.html"
+    "default_title": "TabTomb"
   },
 
   "permissions": [
