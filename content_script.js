@@ -1,4 +1,4 @@
-function markTabBirthday() {
+function createTabBirthday() {
   let tabBirthday = window.sessionStorage.getItem("tabBirthday");
 
   if (!tabBirthday) {
@@ -8,7 +8,7 @@ function markTabBirthday() {
   }
 }
 
-function dittoDomainCheck() {
+function tabTimerReset() {
   let urlStickyNote = window.sessionStorage.getItem("urlStickyNote");
 
   if (!urlStickyNote) {
@@ -19,23 +19,21 @@ function dittoDomainCheck() {
 
   const currentUrl = document.URL;
 
-  if (currentUrl !== urlStickyNote) {
-    const urlStickyNoteObject = new URL(urlStickyNote);
-    let stickyNotePathname = "";
-    if (urlStickyNoteObject) stickyNotePathname = urlStickyNoteObject.pathname;
-    const currentPathname = window.location.pathname;
+  
+  const urlStickyNoteObject = new URL(urlStickyNote);
+  let stickyNotePathname = "";
+  if (urlStickyNoteObject) stickyNotePathname = urlStickyNoteObject.pathname;
+  const currentPathname = window.location.pathname;
 
-    // domains should also not match? Just in case?
-    if (currentPathname !== stickyNotePathname) {
-      console.log("dittoDomain 2nd if");
-      const time = new Date();
-      window.sessionStorage.setItem("tabBirthday", time);
-      window.sessionStorage.setItem("urlStickyNote", currentUrl);
-    }
+  if (currentUrl !== urlStickyNote && currentPathname !== stickyNotePathname) {
+    console.log("tabTimer");
+    const time = new Date();
+    window.sessionStorage.setItem("tabBirthday", time);
+    window.sessionStorage.setItem("urlStickyNote", currentUrl);
   }
 }
 
-function updateTitle(
+function displayTabAge(
   timeUnit,
   timePassedInMillisecondsDivisor,
   intervalTimeInMilliseconds
@@ -46,9 +44,9 @@ function updateTitle(
     const time = new Date();
     const birthdayTime = Date.parse(
       window.sessionStorage.getItem("tabBirthday")
-    );
+    )
     const timePassed = Math.floor(
-      (time - birthdayTime) / timePassedInMillisecondsDivisor
+      (time - birthdayTime) / 1000
     );
 
     let titleInnerText = title.innerText;
@@ -65,11 +63,20 @@ function updateTitle(
   }, intervalTimeInMilliseconds);
 }
 
-markTabBirthday();
+function timeUnitTransition () {}
+// this function will be used to move tabTimer from seconds to minutes to hours to days respectively
+//Function will keep track of a second variable that when it reaches 60 will delete the second varaible and create a minute variable, changing the Tabtimer in the appropriate way, same for minutes ----> and hour//s ---> days
 
-dittoDomainCheck();
 
-updateTitle("s", 1000, 100);
+
+
+
+
+createTabBirthday();
+
+tabTimerReset();
+
+displayTabAge("s", 1000, 100);
 
 // update title - currently seconds every X amount of time
 
